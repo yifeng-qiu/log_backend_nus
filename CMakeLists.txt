@@ -1,0 +1,1 @@
+target_sources_ifdef(CONFIG_LOG_BACKEND_NUS app PRIVATE log_backend_nus.c)

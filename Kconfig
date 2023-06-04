@@ -1,0 +1,52 @@
+# Copyright (c) 2021 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig LOG_BACKEND_NUS
+	bool "Nordic UART Service backend"
+	depends on BT_NUS && LOG
+	default n 
+	select LOG_OUTPUT
+	help
+	  When enabled backend is using NUS to output logs.
+
+if LOG_BACKEND_NUS
+
+config BT_NUS_THREAD_STACK_SIZE
+	int "Thread stack size"
+	default 2048
+	help
+	  Stack size used in each of the two threads
+
+config BT_NUS_SECURITY_ENABLED
+	bool "Use authentication when pairing"
+	default y
+	select BT_SMP
+	help
+	  Use authentication when pairing
+
+backend = NUS
+backend-str = nus
+source "subsys/logging/Kconfig.template.log_format_config"
+
+if LOG_BACKEND_NUS_OUTPUT_DICTIONARY
+
+choice
+	prompt "Dictionary mode output format"
+	default LOG_BACKEND_NUS_OUTPUT_DICTIONARY_BIN
+
+config LOG_BACKEND_NUS_OUTPUT_DICTIONARY_BIN
+	bool "Dictionary (binary)"
+	help
+	  Dictionary-based logging output in binary.
+
+config LOG_BACKEND_NUS_OUTPUT_DICTIONARY_HEX
+	bool "Dictionary (hexadecimal)"
+	help
+	  Dictionary-based logging output in hexadecimal. Supported only for UART backend.
+
+endchoice
+
+endif # LOG_BACKEND_NUS_OUTPUT_DICTIONARY
+
+endif # LOG_BACKEND_NUS
+
