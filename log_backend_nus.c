@@ -130,7 +130,7 @@ static void log_backend_nus_init(const struct log_backend *const backend)
 
 static int is_ready(const struct log_backend *const backend)
 {
-    // return -EACCES;
+    
     return 0;
 }
 
